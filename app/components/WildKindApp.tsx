@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
 import { archetypes, demoProfiles, domains, questions, responseLabels, type DomainCode } from "../data";
 
 type Screen = "home" | "setup" | "assessment" | "result" | "dashboard" | "discover" | "connections" | "messages" | "privacy" | "safety";
@@ -53,6 +55,28 @@ function Home({ begin, how }: { begin: () => void; how: () => void }) {
         {domains.map((d, i) => <span key={d.code} className={`orbit-label label-${i}`}>{d.name}</span>)}
       </div>
       <div className="hero-index"><span>FIELD NOTE 01</span><span>31.2304° N</span><span>OBSERVE · MAP · UNDERSTAND</span></div>
+    </section>
+
+    <section className="campaign-card-section" aria-labelledby="campaign-card-title">
+      <div className="campaign-card-copy">
+        <p className="eyebrow">A mark for every wild soul</p>
+        <h2 id="campaign-card-title">Your pet&apos;s territory starts here.</h2>
+        <p>The contour paw maps five behavioral coordinates. Select the paw to create a private account and keep the Field Guide you uncover.</p>
+        <span>Private by default · No password to remember</span>
+      </div>
+      <figure className="campaign-card-art">
+        <Image
+          src="/social-cards/wildkind-contour-paw.png"
+          alt="WildKind campaign card featuring a contour-map paw and five behavioral dimensions"
+          width={1254}
+          height={1254}
+          sizes="(max-width: 1000px) 90vw, 60vw"
+        />
+        <Link className="paw-register-hotspot" href="/register" aria-label="Select the contour paw to create your WildKind account">
+          <span>Create your account</span>
+        </Link>
+        <figcaption>Select the contour paw to register <span aria-hidden="true">↗</span></figcaption>
+      </figure>
     </section>
 
     <section id="map" className="map-section">
