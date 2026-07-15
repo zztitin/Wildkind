@@ -1,2 +1,7 @@
 minimumReleaseAgeExclude:
   - "@types/node@22.19.19"
+onlyBuiltDependencies:
+  - esbuild
+  - sharp
+  - unrs-resolver
+  - workerd
