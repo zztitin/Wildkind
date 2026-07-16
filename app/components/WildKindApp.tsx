@@ -42,7 +42,6 @@ function Button({ children, onClick, secondary = false, disabled = false, type =
 function Home({ begin, how }: { begin: () => void; how: () => void }) {
   return <main>
     <section className="hero">
-      <div className="topo topo-one" aria-hidden="true" />
       <div className="hero-copy">
         <p className="eyebrow">Decoding the Nature Beneath the Nurture</p>
         <h1>What&apos;s Your Pet&apos;s <em>WildKind?</em></h1>
