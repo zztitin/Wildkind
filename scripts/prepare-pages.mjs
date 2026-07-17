@@ -1,4 +1,4 @@
-import { cp, mkdir, rm } from "node:fs/promises";
+import { copyFile, cp, mkdir, rename, rm } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 
@@ -17,6 +17,16 @@ await mkdir(pagesDir, { recursive: true });
 await cp(clientDir, pagesDir, { recursive: true });
 await mkdir(workerDir, { recursive: true });
 await cp(serverDir, workerDir, { recursive: true });
+
+// Pages advanced mode sends every request through `_worker.js`. Keep Vinext as
+// an internal module and put an asset-aware entry point in front of it so CSS,
+// JavaScript, images, and other public files reach the browser before dynamic
+// routes fall through to the application.
+await rename(path.join(workerDir, "index.js"), path.join(workerDir, "vinext.js"));
+await copyFile(
+  path.join(root, "scripts", "pages-worker-entry.mjs"),
+  path.join(workerDir, "index.js"),
+);
 
 // The Vinext Wrangler file describes a standalone Worker. Pages reads project
 // settings from its own dashboard/API, so keeping this nested file would make
