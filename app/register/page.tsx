@@ -1,12 +1,27 @@
 import Link from "next/link";
-import { chatGPTSignInPath, getChatGPTUser } from "../chatgpt-auth";
+import { headers } from "next/headers";
+import { getGoogleUserFromCookie } from "../../lib/google-auth";
 import { RegistrationForm } from "./RegistrationForm";
 
 export const dynamic = "force-dynamic";
 
-export default async function RegisterPage() {
-  const user = await getChatGPTUser();
-  const signInPath = chatGPTSignInPath("/");
+const errors: Record<string, string> = {
+  "required-consent": "Confirm the required age and service choices before continuing.",
+  configuration: "Google sign-in is still being configured. Please try again shortly.",
+  "oauth-state": "That sign-in attempt expired or could not be verified. Please try again.",
+  "google-token": "Google could not complete the sign-in exchange. Please try again.",
+  "google-profile": "WildKind needs a verified Google email address to create your account.",
+  "oauth-failed": "Sign-in could not be completed. Please try again.",
+};
+
+export default async function RegisterPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ error?: string }>;
+}) {
+  const requestHeaders = await headers();
+  const user = await getGoogleUserFromCookie(requestHeaders.get("cookie"));
+  const { error: errorCode } = await searchParams;
 
   return (
     <main className="registration-page">
@@ -25,7 +40,7 @@ export default async function RegisterPage() {
             <li><span>03</span>Export or delete your data at any time</li>
           </ol>
         </aside>
-        <RegistrationForm signInPath={signInPath} userName={user?.displayName ?? null} />
+        <RegistrationForm userName={user?.name ?? user?.email ?? null} error={errorCode ? errors[errorCode] ?? errors["oauth-failed"] : null} />
       </section>
       <footer className="registration-footnote">WildKind describes recurring behavioral tendencies. It is not veterinary advice, an aggression assessment, or a compatibility guarantee.</footer>
     </main>

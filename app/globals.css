@@ -132,9 +132,13 @@ input,select,textarea { width:100%;border:1px solid rgba(26,24,22,.3);background
 .registration-submit { width:100%; min-height:54px; padding:0 20px; border:0; background:#aa9a82; color:var(--ink); text-decoration:none; display:flex; align-items:center; justify-content:space-between; font-weight:900; }
 .registration-submit.ready { background:var(--ember); }
 .registration-submit:disabled { cursor:not-allowed; opacity:.6; }
+.google-mark { width:24px; height:24px; border-radius:50%; background:var(--paper); display:grid; place-items:center; font-family:Arial,sans-serif; font-size:14px; font-weight:900; }
+.registration-error { padding:12px 14px; border-left:4px solid #8f3025; background:rgba(143,48,37,.09); color:#6b261e; line-height:1.45; }
 .registration-privacy { font-size:11px; color:#786e62; line-height:1.5; margin:18px 0 0; }
 .registration-complete { text-align:center; }
 .registration-seal { width:74px; height:74px; display:grid; place-items:center; background:var(--moss); border-radius:50%; margin:0 auto 26px; font-size:30px; }
+.registration-signout { margin-top:16px; }
+.registration-signout button { border:0; background:transparent; color:#6b3b22; text-decoration:underline; cursor:pointer; }
 .registration-footnote { padding:20px clamp(20px,5vw,72px); border-top:1px solid var(--line); color:rgba(232,213,181,.45); font-size:11px; line-height:1.5; }
 footer { border-top:1px solid var(--line);padding:50px clamp(20px,6vw,90px);display:grid;grid-template-columns:1fr 1fr auto;gap:30px;align-items:center;background:var(--obsidian);color:var(--sand)}footer>p{color:rgba(232,213,181,.55)}footer nav{display:flex;gap:18px}footer nav button,footer nav a{border:0;background:none;color:rgba(232,213,181,.7);text-decoration:none;padding:0}footer small{grid-column:1/-1;border-top:1px solid var(--line);padding-top:24px;color:rgba(232,213,181,.4)}
 @media (max-width:1000px){.hero{grid-template-columns:1fr;grid-template-areas:"copy" "orbit" "index"}.field-orbit{width:min(80vw,500px)}.campaign-card-section,.map-section,.method-section,.setup-grid,.registration-shell{grid-template-columns:1fr}.campaign-card-art{max-width:760px}.section-heading{position:static}.result-intro{grid-template-columns:1fr}.result-actions{grid-column:1}.profile-grid{grid-template-columns:1fr}.dashboard-grid{grid-template-columns:1fr}.pet-card{grid-row:auto}.message-page{grid-template-columns:260px 1fr}.care-plan>div{grid-template-columns:1fr}.care-plan article{border-right:0;border-bottom:1px solid rgba(26,24,22,.3)}.archetype-main{grid-template-columns:100px 1fr}.registration-card{margin:50px auto 80px}}

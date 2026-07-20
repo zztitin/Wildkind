@@ -32,3 +32,16 @@ pnpm test
 
 The app uses Next.js, React, Tailwind CSS, Vinext, Cloudflare Workers, and D1.
 Product and assessment specifications are in `docs/`.
+
+## Google sign-in
+
+The public registration flow uses Google OAuth with PKCE. Configure
+`GOOGLE_CLIENT_ID` as a production environment variable and
+`GOOGLE_CLIENT_SECRET` as a production secret. The authorized callback URL is:
+
+```text
+https://pet-wildkind.co.uk/api/auth/callback/google
+```
+
+D1 stores verified account details, append-only consent events, and hashed
+revocable sessions. Google access tokens and raw session tokens are not stored.

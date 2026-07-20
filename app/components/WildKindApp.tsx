@@ -17,7 +17,7 @@ function Mark({ small = false }: { small?: boolean }) {
   return <span className={small ? "mark mark-small" : "mark"} aria-label="WildKind contour seal"><i /><i /><i /><b /></span>;
 }
 
-function Header({ screen, setScreen, signedIn }: { screen: Screen; setScreen: (s: Screen) => void; signedIn: boolean }) {
+function Header({ screen, setScreen, signedIn, initials }: { screen: Screen; setScreen: (s: Screen) => void; signedIn: boolean; initials: string }) {
   const app = ["dashboard", "discover", "connections", "messages", "privacy"].includes(screen);
   return (
     <header className="site-header">
@@ -30,7 +30,7 @@ function Header({ screen, setScreen, signedIn }: { screen: Screen; setScreen: (s
           <button className={screen === "messages" ? "active" : ""} onClick={() => setScreen("messages")}>Messages</button>
         </nav>
       ) : <span className="header-note">Behavior, carefully observed.</span>}
-      {signedIn && <button className="avatar" onClick={() => setScreen("privacy")} aria-label="Open privacy and account settings">ZC</button>}
+      {signedIn && <button className="avatar" onClick={() => setScreen("privacy")} aria-label="Open privacy and account settings">{initials}</button>}
     </header>
   );
 }
@@ -201,22 +201,28 @@ function Privacy({ pet, setPet, clear }: { pet: Pet; setPet: (p: Pet) => void; c
 
 function Safety({ close }: { close: () => void }) { return <div className="modal-backdrop"><div className="modal"><p className="eyebrow dark">Community safety</p><h2>Report submitted for review</h2><p>The report records a category, optional context, profile reference, and timestamp. Moderators see only the minimum necessary context.</p><label>Category<select><option>Harassment</option><option>Spam</option><option>Unsafe advice</option><option>Inappropriate content</option><option>Impersonation</option><option>Underage concern</option><option>Other</option></select></label><label>Optional explanation<textarea placeholder="Describe what happened without sharing unnecessary sensitive details." /></label><div className="button-row"><Button onClick={close}>Submit report</Button><Button onClick={close} secondary>Cancel</Button></div></div></div> }
 
-export function WildKindApp() {
-  const [screen, setScreen] = useState<Screen>("home"); const [pet, setPet] = useState<Pet>(defaultPet); const [answers, setAnswers] = useState<Answers>({}); const [index, setIndex] = useState(0); const [result, setResult] = useState<Result>(); const [signedIn, setSignedIn] = useState(false); const [connections, setConnections] = useState<string[]>([]); const [messages, setMessages] = useState<Record<string,string[]>>({}); const [blocked, setBlocked] = useState<string[]>([]); const [reporting, setReporting] = useState(false); const [loaded, setLoaded] = useState(false);
-  useEffect(() => { fetch("/api/state").then(r=>r.ok?r.json():{}).then((s:SavedState)=>{ const draft=sessionStorage.getItem("wk-draft"); if(draft)setAnswers(JSON.parse(draft)); if(s.pet){setPet(s.pet);setSignedIn(true)} if(s.result)setResult(s.result); if(s.connections)setConnections(s.connections); if(s.messages)setMessages(s.messages); if(s.blocked)setBlocked(s.blocked); }).finally(()=>setLoaded(true)); }, []);
+export function WildKindApp({ initialUser }: { initialUser: { name: string | null; email: string } | null }) {
+  const [screen, setScreen] = useState<Screen>("home"); const [pet, setPet] = useState<Pet>(defaultPet); const [answers, setAnswers] = useState<Answers>({}); const [index, setIndex] = useState(0); const [result, setResult] = useState<Result>(); const signedIn = Boolean(initialUser); const [connections, setConnections] = useState<string[]>([]); const [messages, setMessages] = useState<Record<string,string[]>>({}); const [blocked, setBlocked] = useState<string[]>([]); const [reporting, setReporting] = useState(false); const [loaded, setLoaded] = useState(false);
+  useEffect(() => { fetch("/api/state").then(r=>r.ok?r.json():{}).then((s:SavedState)=>{ const draft=sessionStorage.getItem("wk-draft"); if(draft)setAnswers(JSON.parse(draft)); if(s.pet)setPet(s.pet); if(s.result)setResult(s.result); if(s.connections)setConnections(s.connections); if(s.messages)setMessages(s.messages); if(s.blocked)setBlocked(s.blocked); }).finally(()=>setLoaded(true)); }, []);
   const state = useMemo(() => ({ pet, result, connections, messages, blocked }), [pet,result,connections,messages,blocked]);
   useEffect(() => { if(loaded && signedIn) fetch("/api/state", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(state) }); }, [state, loaded, signedIn]);
   const finish = () => { const r=computeResult(answers); setResult(r); setScreen("result"); window.scrollTo({top:0,behavior:"smooth"}); };
-  const save = () => { setSignedIn(true); setScreen("dashboard"); };
+  const saveBeforeRegistration = () => {
+    void fetch("/api/state", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(state) })
+      .finally(() => { window.location.href = "/register"; });
+  };
+  const save = () => { if (!signedIn) { saveBeforeRegistration(); return; } setScreen("dashboard"); };
   const request = (id:string) => setConnections(c => c.includes(id) ? c : [...c,id]);
   const accept = (id:string) => setConnections(c => c.map(x => x===id ? `${x}-accepted` : x));
   const block = (id:string) => { setBlocked(b => [...new Set([...b,id])]); setConnections(c=>c.filter(x=>x.replace("-accepted","")!==id)); setScreen("discover"); };
-  const clear = () => { void fetch("/api/state", { method:"DELETE" }); setPet(defaultPet);setResult(undefined);setConnections([]);setMessages({});setBlocked([]);setSignedIn(false);sessionStorage.removeItem("wk-draft");setScreen("home"); };
-  return <div className={`site-shell screen-${screen}`}><Header screen={screen} setScreen={setScreen} signedIn={signedIn} />
+  const clear = () => { void fetch("/api/state", { method:"DELETE" }); setPet(defaultPet);setResult(undefined);setConnections([]);setMessages({});setBlocked([]);sessionStorage.removeItem("wk-draft");setScreen("home"); };
+  const identity = initialUser?.name ?? initialUser?.email ?? "WK";
+  const initials = identity.split(/\s+|@/u).filter(Boolean).slice(0, 2).map(part => part[0]?.toUpperCase()).join("") || "WK";
+  return <div className={`site-shell screen-${screen}`}><Header screen={screen} setScreen={setScreen} signedIn={signedIn} initials={initials} />
     {screen === "home" && <Home begin={() => setScreen("setup")} how={() => document.getElementById("map")?.scrollIntoView({behavior:"smooth"})} />}
     {screen === "setup" && <Setup pet={pet} setPet={setPet} onStart={() => { setIndex(0); setScreen("assessment"); }} />}
     {screen === "assessment" && <Assessment pet={pet} answers={answers} setAnswers={setAnswers} index={index} setIndex={setIndex} finish={finish} />}
-    {screen === "result" && result && <ResultView pet={pet} result={result} save={save} discover={() => { setSignedIn(true);setScreen("discover"); }} />}
+    {screen === "result" && result && <ResultView pet={pet} result={result} save={save} discover={() => { if (!signedIn) { saveBeforeRegistration(); return; } setScreen("discover"); }} />}
     {screen === "dashboard" && <Dashboard pet={pet} result={result} setScreen={setScreen} />}
     {screen === "discover" && <Discover connections={connections.map(x=>x.replace("-accepted",""))} request={request} blocked={blocked} block={block} report={() => setReporting(true)} />}
     {screen === "connections" && <Connections connections={connections} accept={accept} setScreen={setScreen} />}

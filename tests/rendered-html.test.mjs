@@ -10,7 +10,7 @@ test("build contains the WildKind product shell", async () => {
     readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
   ]);
-  assert.match(page, /<WildKindApp \/>/);
+  assert.match(page, /<WildKindApp initialUser=/);
   assert.match(app, /What&apos;s Your Pet&apos;s/);
   assert.match(app, /Begin the expedition/);
   assert.match(app, /Five coordinates/);
