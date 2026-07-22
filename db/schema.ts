@@ -53,3 +53,28 @@ export const consents = sqliteTable("consents", {
   source: text("source").notNull(),
   createdAt: text("created_at").notNull(),
 }, (table) => [index("consents_user_kind_idx").on(table.userId, table.kind)]);
+
+export const purchases = sqliteTable("purchases", {
+  id: text("id").primaryKey(),
+  userId: text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  productCode: text("product_code").notNull(),
+  paypalOrderId: text("paypal_order_id"),
+  paypalCaptureId: text("paypal_capture_id"),
+  amountValue: text("amount_value").notNull(),
+  currencyCode: text("currency_code").notNull(),
+  status: text("status").notNull(),
+  createdAt: text("created_at").notNull(),
+  updatedAt: text("updated_at").notNull(),
+  completedAt: text("completed_at"),
+}, (table) => [
+  index("purchases_user_product_idx").on(table.userId, table.productCode),
+  uniqueIndex("purchases_paypal_order_unique").on(table.paypalOrderId),
+  uniqueIndex("purchases_paypal_capture_unique").on(table.paypalCaptureId),
+]);
+
+export const paypalEvents = sqliteTable("paypal_events", {
+  id: text("id").primaryKey(),
+  eventType: text("event_type").notNull(),
+  resourceId: text("resource_id"),
+  processedAt: text("processed_at").notNull(),
+});

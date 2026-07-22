@@ -1,14 +1,6 @@
-"use client";
-
 import Link from "next/link";
-import { useState } from "react";
 
-type Currency = "GBP" | "CNY";
-
-const prices = {
-  GBP: { symbol: "£", guide: "4.99", guideStandard: "7.99", pet: "4.99", compass: "24.99" },
-  CNY: { symbol: "¥", guide: "39", guideStandard: "69", pet: "39", compass: "219" },
-};
+const price = { guide: "5.99", guideStandard: "9.99", pet: "5.99", compass: "29.99" };
 
 const comparison = [
   ["32 careful observations", true, true, true],
@@ -32,9 +24,6 @@ function Check({ included }: { included: boolean }) {
 }
 
 export function PricingPage() {
-  const [currency, setCurrency] = useState<Currency>("GBP");
-  const price = prices[currency];
-
   return <div className="pricing-page">
     <header className="pricing-header">
       <Link href="/" className="pricing-brand"><PawMark /><span>WILD<strong>◆</strong>KIND</span></Link>
@@ -47,16 +36,13 @@ export function PricingPage() {
         <p className="eyebrow">Simple paths · No surprise turns</p>
         <h1>Start with the map.<br /><em>Go deeper when it helps.</em></h1>
         <p>Every pet can begin with a free behavioral Snapshot. Pay once for the complete Field Guide—or wait for an annual plan built around genuine, ongoing value.</p>
-        <div className="beta-note"><span>PRIVATE BETA</span><p>Complete Field Guide features are currently free while we validate the experience. Paid checkout is not active, and you will not be charged.</p></div>
+        <div className="beta-note"><span>SANDBOX BETA</span><p>PayPal test checkout is active. Sandbox transactions use simulated funds—no real money will move while we validate the purchase journey.</p></div>
       </section>
 
       <section className="pricing-plans" aria-labelledby="plans-title">
         <div className="pricing-section-head">
           <div><p className="eyebrow dark">Choose your trail</p><h2 id="plans-title">Clear value at every stage.</h2></div>
-          <div className="currency-switch" role="group" aria-label="Display currency">
-            <button className={currency === "GBP" ? "active" : ""} onClick={() => setCurrency("GBP")} aria-pressed={currency === "GBP"}>GBP £</button>
-            <button className={currency === "CNY" ? "active" : ""} onClick={() => setCurrency("CNY")} aria-pressed={currency === "CNY"}>CNY ¥</button>
-          </div>
+          <div className="currency-badge"><span>Checkout currency</span><strong>USD $</strong></div>
         </div>
 
         <div className="plan-grid">
@@ -75,23 +61,23 @@ export function PricingPage() {
             <div className="plan-number">02 · COMPLETE FIELD GUIDE</div>
             <h3>Understand the whole terrain.</h3>
             <p className="plan-purpose">A lasting, practical guide for owners who want more than a personality label.</p>
-            <div className="plan-price"><strong>{price.symbol}{price.guide}</strong><span>one time · per pet<br /><s>{price.symbol}{price.guideStandard} standard price</s></span></div>
+            <div className="plan-price"><strong>${price.guide}</strong><span>USD · one time · per pet<br /><s>${price.guideStandard} standard price</s></span></div>
             <ul><li>Everything in the free Snapshot</li><li>Detailed interpretation of all five dimensions</li><li>Personalized seven-day care plan</li><li>Saved complete Field Guide</li><li>One follow-up retest</li></ul>
-            <Link className="plan-button" href="/register">Create a private account <span>↗</span></Link>
-            <small>Beta access is free · We will ask before any future payment</small>
+            <Link className="plan-button" href="/checkout">Purchase with PayPal <span>↗</span></Link>
+            <small>Sandbox checkout · No real funds move during testing</small>
           </article>
 
           <article className="plan-card compass-plan">
             <div className="plan-number">03 · CONTINUING EXPEDITION</div>
             <h3>WildKind Compass</h3>
             <p className="plan-purpose">For multi-pet homes that want to follow change over time.</p>
-            <div className="plan-price"><strong>{price.symbol}{price.compass}</strong><span>per year<br />about {price.symbol}{currency === "GBP" ? "2.08" : "18"}/month</span></div>
-            <ul><li>Complete guides for up to three pets</li><li>Quarterly retests and score trends</li><li>Ongoing personalized field notes</li><li>Full report and observation history</li><li>Additional pets at {price.symbol}{price.pet} each</li></ul>
+            <div className="plan-price"><strong>${price.compass}</strong><span>USD · per year<br />about $2.50/month</span></div>
+            <ul><li>Complete guides for up to three pets</li><li>Quarterly retests and score trends</li><li>Ongoing personalized field notes</li><li>Full report and observation history</li><li>Additional pets at ${price.pet} each</li></ul>
             <Link className="plan-button secondary-plan-button" href="/register">Join the founding list <span>↗</span></Link>
             <small>Opening after beta · No subscription starts today</small>
           </article>
         </div>
-        <p className="currency-note">GBP and CNY are separate regional prices, not live currency conversions. Applicable taxes may be added at checkout when payments launch.</p>
+        <p className="currency-note">All PayPal charges are denominated in USD. The current environment is PayPal Sandbox; production checkout will remain disabled until live credentials and merchant verification are complete.</p>
       </section>
 
       <section className="pricing-principle">
@@ -104,7 +90,7 @@ export function PricingPage() {
         <div className="pricing-section-head"><div><p className="eyebrow dark">The field kit</p><h2 id="compare-title">Compare every coordinate.</h2></div><p>Community discovery and mutual-consent messaging remain free while the network grows.</p></div>
         <div className="comparison-wrap">
           <table>
-            <thead><tr><th scope="col">What you receive</th><th scope="col">Snapshot<br /><span>Free</span></th><th scope="col">Field Guide<br /><span>{price.symbol}{price.guide}</span></th><th scope="col">Compass<br /><span>{price.symbol}{price.compass}/yr</span></th></tr></thead>
+            <thead><tr><th scope="col">What you receive</th><th scope="col">Snapshot<br /><span>Free</span></th><th scope="col">Field Guide<br /><span>${price.guide}</span></th><th scope="col">Compass<br /><span>${price.compass}/yr</span></th></tr></thead>
             <tbody>{comparison.map(([feature, snapshot, guide, compass]) => <tr key={feature}><th scope="row">{feature}</th><td><Check included={snapshot} /></td><td><Check included={guide} /></td><td><Check included={compass} /></td></tr>)}</tbody>
           </table>
         </div>
@@ -113,7 +99,7 @@ export function PricingPage() {
       <section className="pricing-faq" aria-labelledby="faq-title">
         <div><p className="eyebrow">Field questions</p><h2 id="faq-title">Good maps make the boundaries clear.</h2><p>If pricing changes after beta, existing users will be told before it affects them.</p></div>
         <div className="faq-list">
-          <details open><summary>Will I be charged during the private beta?</summary><p>No. Checkout is not active. You can create an account and use the current Field Guide without entering payment details.</p></details>
+          <details open><summary>Will sandbox checkout move real money?</summary><p>No. The current PayPal Sandbox uses simulated accounts and funds. Live payments remain disabled until a separate production launch.</p></details>
           <details><summary>Why is the Field Guide a one-time purchase?</summary><p>A personality assessment is naturally episodic. You should not need a subscription simply to keep a report you already created.</p></details>
           <details><summary>What makes Compass worth renewing?</summary><p>Compass will launch only when it includes recurring value: multi-pet profiles, quarterly retests, score trends, ongoing guidance and complete history.</p></details>
           <details><summary>Is WildKind veterinary or diagnostic advice?</summary><p>No. WildKind describes observed behavioral tendencies. Sudden changes, health concerns and safety risks should be discussed with an appropriate veterinary or behavioral professional.</p></details>

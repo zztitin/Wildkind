@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { headers } from "next/headers";
-import { getGoogleUserFromCookie } from "../../lib/google-auth";
+import { getGoogleUserFromCookie, safeReturnTo } from "../../lib/google-auth";
 import { RegistrationForm } from "./RegistrationForm";
 
 export const dynamic = "force-dynamic";
@@ -17,11 +17,12 @@ const errors: Record<string, string> = {
 export default async function RegisterPage({
   searchParams,
 }: {
-  searchParams: Promise<{ error?: string }>;
+  searchParams: Promise<{ error?: string; return_to?: string }>;
 }) {
   const requestHeaders = await headers();
   const user = await getGoogleUserFromCookie(requestHeaders.get("cookie"));
-  const { error: errorCode } = await searchParams;
+  const { error: errorCode, return_to: requestedReturnTo } = await searchParams;
+  const returnTo = safeReturnTo(requestedReturnTo);
 
   return (
     <main className="registration-page">
@@ -40,7 +41,7 @@ export default async function RegisterPage({
             <li><span>03</span>Export or delete your data at any time</li>
           </ol>
         </aside>
-        <RegistrationForm userName={user?.name ?? user?.email ?? null} error={errorCode ? errors[errorCode] ?? errors["oauth-failed"] : null} />
+        <RegistrationForm userName={user?.name ?? user?.email ?? null} error={errorCode ? errors[errorCode] ?? errors["oauth-failed"] : null} returnTo={returnTo} />
       </section>
       <footer className="registration-footnote">WildKind describes recurring behavioral tendencies. It is not veterinary advice, an aggression assessment, or a compatibility guarantee.</footer>
     </main>

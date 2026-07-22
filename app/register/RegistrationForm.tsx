@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 
-export function RegistrationForm({ userName, error }: { userName: string | null; error: string | null }) {
+export function RegistrationForm({ userName, error, returnTo }: { userName: string | null; error: string | null; returnTo: string }) {
   const [age, setAge] = useState(false);
   const [service, setService] = useState(false);
   const [research, setResearch] = useState(false);
@@ -15,7 +15,7 @@ export function RegistrationForm({ userName, error }: { userName: string | null;
       <p className="eyebrow dark">Basecamp established</p>
       <h2>You&apos;re signed in.</h2>
       <p>Welcome, {userName}. Your Field Guides and privacy choices can now stay with your account.</p>
-      <Link className="registration-submit ready" href="/">Return to WildKind <span>↗</span></Link>
+      <Link className="registration-submit ready" href={returnTo}>Continue to WildKind <span>↗</span></Link>
       <form action="/api/auth/logout?return_to=/register" method="post" className="registration-signout">
         <button type="submit">Sign out</button>
       </form>
@@ -24,7 +24,7 @@ export function RegistrationForm({ userName, error }: { userName: string | null;
 
   const ready = age && service;
   const signInPath = `/api/auth/google/start?${new URLSearchParams({
-    return_to: "/",
+    return_to: returnTo,
     age: age ? "1" : "0",
     service: service ? "1" : "0",
     research: research ? "1" : "0",

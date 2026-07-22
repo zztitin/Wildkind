@@ -15,6 +15,13 @@
       "when": 1784560886363,
       "tag": "0001_dark_thor",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1784735425989,
+      "tag": "0002_true_wilson_fisk",
+      "breakpoints": true
     }
   ]
 }

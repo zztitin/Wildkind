@@ -45,3 +45,20 @@ https://pet-wildkind.co.uk/api/auth/callback/google
 
 D1 stores verified account details, append-only consent events, and hashed
 revocable sessions. Google access tokens and raw session tokens are not stored.
+
+## PayPal checkout
+
+The Complete Field Guide uses a one-time, server-confirmed PayPal Orders v2
+checkout. The current configuration is sandbox-only and charges a simulated
+`$5.99 USD`. Configure `PAYPAL_CLIENT_ID`, `PAYPAL_CLIENT_SECRET`,
+`PAYPAL_ENV`, `PAYPAL_WEBHOOK_ID`, and `PAYPAL_FIELD_GUIDE_PRICE` as hosted
+runtime values. Never expose the client secret in browser code or commit it.
+
+The public webhook URL is:
+
+```text
+https://pet-wildkind.co.uk/api/paypal/webhook
+```
+
+Payment capture and verified webhook events create the D1 entitlement. Browser
+redirects alone never unlock paid access.

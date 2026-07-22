@@ -26,9 +26,9 @@ test("pricing route contains the staged WildKind offer", async () => {
   ]);
   assert.match(page, /PricingPage/);
   assert.match(pricing, /WildKind Snapshot/);
-  assert.match(pricing, /Complete Field Guide/);
+  assert.match(pricing, /complete Field Guide/i);
   assert.match(pricing, /WildKind Compass/);
-  assert.match(pricing, /Paid checkout is not active/);
-  assert.match(pricing, /GBP/);
-  assert.match(pricing, /CNY/);
+  assert.match(pricing, /PayPal test checkout is active/);
+  assert.match(pricing, /USD/);
+  assert.match(pricing, /\/checkout/);
 });
