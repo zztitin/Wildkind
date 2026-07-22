@@ -18,3 +18,17 @@ test("build contains the WildKind product shell", async () => {
   assert.match(css, /--obsidian:#1a1816/);
   assert.doesNotMatch(`${page}${app}${layout}`, /codex-preview|react-loading-skeleton|Starter Project/i);
 });
+
+test("pricing route contains the staged WildKind offer", async () => {
+  const [page, pricing] = await Promise.all([
+    readFile(new URL("../app/pricing/page.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/pricing/PricingPage.tsx", import.meta.url), "utf8"),
+  ]);
+  assert.match(page, /PricingPage/);
+  assert.match(pricing, /WildKind Snapshot/);
+  assert.match(pricing, /Complete Field Guide/);
+  assert.match(pricing, /WildKind Compass/);
+  assert.match(pricing, /Paid checkout is not active/);
+  assert.match(pricing, /GBP/);
+  assert.match(pricing, /CNY/);
+});

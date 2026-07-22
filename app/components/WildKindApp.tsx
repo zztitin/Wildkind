@@ -28,8 +28,9 @@ function Header({ screen, setScreen, signedIn, initials }: { screen: Screen; set
           <button className={screen === "discover" ? "active" : ""} onClick={() => setScreen("discover")}>Discover</button>
           <button className={screen === "connections" ? "active" : ""} onClick={() => setScreen("connections")}>Connections</button>
           <button className={screen === "messages" ? "active" : ""} onClick={() => setScreen("messages")}>Messages</button>
+          <Link href="/pricing">Pricing</Link>
         </nav>
-      ) : <span className="header-note">Behavior, carefully observed.</span>}
+      ) : <div className="header-public"><span className="header-note">Behavior, carefully observed.</span><Link href="/pricing">Pricing</Link></div>}
       {signedIn && <button className="avatar" onClick={() => setScreen("privacy")} aria-label="Open privacy and account settings">{initials}</button>}
     </header>
   );
@@ -229,6 +230,6 @@ export function WildKindApp({ initialUser }: { initialUser: { name: string | nul
     {screen === "messages" && <Messages connections={connections} messages={messages} send={(id,text)=>setMessages(m=>({...m,[id]:[...(m[id]??[]),text]}))} block={block} report={()=>setReporting(true)} />}
     {screen === "privacy" && <Privacy pet={pet} setPet={setPet} clear={clear} />}
     {reporting && <Safety close={() => setReporting(false)} />}
-    <footer><div className="brand"><Mark small /><span>WILDKIND</span></div><p>Warm science for the individual animal.</p><nav><button onClick={() => setReporting(true)}>Safety</button><button onClick={() => setScreen(signedIn ? "privacy" : "home")}>Privacy</button><a href="https://github.com/zztitin/Wildkind/tree/main/docs">Methodology</a></nav><small>© 2026 WildKind · Snapshot v0.1 · Not veterinary advice</small></footer>
+    <footer><div className="brand"><Mark small /><span>WILDKIND</span></div><p>Warm science for the individual animal.</p><nav><Link href="/pricing">Pricing</Link><button onClick={() => setReporting(true)}>Safety</button><button onClick={() => setScreen(signedIn ? "privacy" : "home")}>Privacy</button><a href="https://github.com/zztitin/Wildkind/tree/main/docs">Methodology</a></nav><small>© 2026 WildKind · Snapshot v0.1 · Not veterinary advice</small></footer>
   </div>;
 }

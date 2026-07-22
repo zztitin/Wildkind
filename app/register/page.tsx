@@ -27,13 +27,13 @@ export default async function RegisterPage({
     <main className="registration-page">
       <header className="registration-header">
         <Link href="/" className="registration-brand">WILD<span>◆</span>KIND</Link>
-        <Link href="/" className="registration-back">← Back to the field station</Link>
+        <nav className="registration-nav" aria-label="Registration navigation"><Link href="/pricing">Pricing</Link><Link href="/" className="registration-back">← Back to the field station</Link></nav>
       </header>
       <section className="registration-shell">
         <aside className="registration-story">
           <p className="eyebrow">Establish your basecamp</p>
           <h1>Keep the map.<br />Continue the expedition.</h1>
-          <p>Create a private WildKind account to save Field Guides, manage up to three pet profiles, and choose if you ever appear in discovery.</p>
+          <p>Create a private WildKind account to keep your Field Guide. Multi-pet profiles and progress tracking will arrive with WildKind Compass after beta.</p>
           <ol>
             <li><span>01</span>Private profile by default</li>
             <li><span>02</span>Separate research and community choices</li>
