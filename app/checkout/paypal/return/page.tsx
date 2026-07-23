@@ -8,5 +8,5 @@ export default function PayPalReturnPage() {
 }
 
 function StatusFallback() {
-  return <section className="payment-status-card"><span className="status-orbit" /><p className="eyebrow">Confirming the trail</p><h1>Checking your sandbox payment…</h1><p>Keep this page open while PayPal confirms the capture.</p></section>;
+  return <section className="payment-status-card"><span className="status-orbit" /><p className="eyebrow">Confirming the trail</p><h1>Checking your PayPal payment…</h1><p>Keep this page open while PayPal confirms the payment.</p></section>;
 }

@@ -36,7 +36,7 @@ export function PricingPage() {
         <p className="eyebrow">Simple paths · No surprise turns</p>
         <h1>Start with the map.<br /><em>Go deeper when it helps.</em></h1>
         <p>Every pet can begin with a free behavioral Snapshot. Pay once for the complete Field Guide—or wait for an annual plan built around genuine, ongoing value.</p>
-        <div className="beta-note"><span>SANDBOX BETA</span><p>PayPal test checkout is active. Sandbox transactions use simulated funds—no real money will move while we validate the purchase journey.</p></div>
+        <div className="beta-note"><span>FOUNDING OFFER</span><p>The Complete Field Guide is now available as a secure one-time PayPal purchase. Pay once and keep the guide on your WildKind account.</p></div>
       </section>
 
       <section className="pricing-plans" aria-labelledby="plans-title">
@@ -64,7 +64,7 @@ export function PricingPage() {
             <div className="plan-price"><strong>${price.guide}</strong><span>USD · one time · per pet<br /><s>${price.guideStandard} standard price</s></span></div>
             <ul><li>Everything in the free Snapshot</li><li>Detailed interpretation of all five dimensions</li><li>Personalized seven-day care plan</li><li>Saved complete Field Guide</li><li>One follow-up retest</li></ul>
             <Link className="plan-button" href="/checkout">Purchase with PayPal <span>↗</span></Link>
-            <small>Sandbox checkout · No real funds move during testing</small>
+            <small>Secure PayPal checkout · One-time payment</small>
           </article>
 
           <article className="plan-card compass-plan">
@@ -77,7 +77,7 @@ export function PricingPage() {
             <small>Opening after beta · No subscription starts today</small>
           </article>
         </div>
-        <p className="currency-note">All PayPal charges are denominated in USD. The current environment is PayPal Sandbox; production checkout will remain disabled until live credentials and merchant verification are complete.</p>
+        <p className="currency-note">All PayPal charges are denominated in USD. The Complete Field Guide is a one-time purchase—not a recurring subscription.</p>
       </section>
 
       <section className="pricing-principle">
@@ -99,7 +99,7 @@ export function PricingPage() {
       <section className="pricing-faq" aria-labelledby="faq-title">
         <div><p className="eyebrow">Field questions</p><h2 id="faq-title">Good maps make the boundaries clear.</h2><p>If pricing changes after beta, existing users will be told before it affects them.</p></div>
         <div className="faq-list">
-          <details open><summary>Will sandbox checkout move real money?</summary><p>No. The current PayPal Sandbox uses simulated accounts and funds. Live payments remain disabled until a separate production launch.</p></details>
+          <details open><summary>How will I be charged?</summary><p>PayPal processes a one-time $5.99 USD payment for the Complete Field Guide. No subscription is created.</p></details>
           <details><summary>Why is the Field Guide a one-time purchase?</summary><p>A personality assessment is naturally episodic. You should not need a subscription simply to keep a report you already created.</p></details>
           <details><summary>What makes Compass worth renewing?</summary><p>Compass will launch only when it includes recurring value: multi-pet profiles, quarterly retests, score trends, ongoing guidance and complete history.</p></details>
           <details><summary>Is WildKind veterinary or diagnostic advice?</summary><p>No. WildKind describes observed behavioral tendencies. Sudden changes, health concerns and safety risks should be discussed with an appropriate veterinary or behavioral professional.</p></details>

@@ -25,8 +25,8 @@ export function CheckoutButton() {
   }
 
   return <div className="paypal-checkout-action">
-    <button onClick={startCheckout} disabled={status === "starting"}>{status === "starting" ? "Opening secure sandbox…" : "Continue with PayPal"}<span aria-hidden="true">↗</span></button>
-    <span>PayPal Sandbox · Secure server-confirmed checkout</span>
+    <button onClick={startCheckout} disabled={status === "starting"}>{status === "starting" ? "Opening secure PayPal…" : "Continue with PayPal"}<span aria-hidden="true">↗</span></button>
+    <span>Secure one-time payment · Confirmed by PayPal</span>
     {status === "error" && <p role="alert">{error} Please try again.</p>}
   </div>;
 }

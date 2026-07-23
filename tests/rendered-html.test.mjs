@@ -28,7 +28,8 @@ test("pricing route contains the staged WildKind offer", async () => {
   assert.match(pricing, /WildKind Snapshot/);
   assert.match(pricing, /complete Field Guide/i);
   assert.match(pricing, /WildKind Compass/);
-  assert.match(pricing, /PayPal test checkout is active/);
+  assert.match(pricing, /secure one-time PayPal purchase/i);
+  assert.doesNotMatch(pricing, /sandbox/i);
   assert.match(pricing, /USD/);
   assert.match(pricing, /\/checkout/);
 });

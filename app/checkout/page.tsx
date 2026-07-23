@@ -29,7 +29,7 @@ export default async function CheckoutPage() {
       <section className="checkout-card">
         <div className="checkout-product"><div><span>WILDKIND · DIGITAL FIELD GUIDE</span><h2>Lifetime access for one pet</h2></div><strong>${DEFAULT_FIELD_GUIDE_PRICE}</strong></div>
         <div className="checkout-total"><span>Total due today</span><strong>${DEFAULT_FIELD_GUIDE_PRICE} USD</strong></div>
-        <div className="sandbox-banner"><strong>PayPal Sandbox</strong><span>This is a test checkout. No real money will move.</span></div>
+        <div className="payment-banner"><strong>Secure PayPal checkout</strong><span>You will be charged ${DEFAULT_FIELD_GUIDE_PRICE} USD once. This is not a subscription.</span></div>
         {!user ? <div className="checkout-account-needed"><h3>Establish your basecamp first.</h3><p>Sign in so the Field Guide can be attached securely to your WildKind account.</p><Link className="plan-button" href="/register?return_to=/checkout">Create account or sign in <span>↗</span></Link></div>
           : unlocked ? <div className="checkout-account-needed"><span className="checkout-success-mark">✓</span><h3>Your Field Guide is already unlocked.</h3><p>No additional purchase is needed for this account.</p><Link className="plan-button" href="/checkout/success">Open your Field Guide <span>↗</span></Link></div>
           : <CheckoutButton />}
