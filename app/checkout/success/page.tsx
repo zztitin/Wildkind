@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { headers } from "next/headers";
 import { getGoogleUserFromCookie } from "../../../lib/google-auth";
-import { hasFieldGuideEntitlement } from "../../../lib/paypal";
+import { hasFieldGuideEntitlement } from "../../../lib/payments";
 
 export const dynamic = "force-dynamic";
 

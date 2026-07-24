@@ -1,9 +1,11 @@
 import { env } from "cloudflare:workers";
-import { getAuthDb } from "./google-auth";
-
-export const FIELD_GUIDE_PRODUCT = "field-guide-lifetime";
-export const FIELD_GUIDE_CURRENCY = "USD";
-export const DEFAULT_FIELD_GUIDE_PRICE = "5.99";
+import {
+  DEFAULT_FIELD_GUIDE_PRICE,
+  ensurePaymentSchema,
+  FIELD_GUIDE_CURRENCY,
+  FIELD_GUIDE_PRODUCT,
+  hasFieldGuideEntitlement,
+} from "./payments";
 
 type PayPalEnvironment = "sandbox" | "live";
 
@@ -28,8 +30,6 @@ type PayPalOrder = {
   purchase_units?: Array<{ payments?: { captures?: PayPalCapture[] } }>;
 };
 
-let paymentSchemaReady: Promise<void> | undefined;
-
 export function getPayPalConfig() {
   const runtime = env as unknown as RuntimeEnv;
   const environment: PayPalEnvironment = runtime.PAYPAL_ENV === "live" ? "live" : "sandbox";
@@ -44,46 +44,6 @@ export function getPayPalConfig() {
     price,
     baseUrl: environment === "live" ? "https://api-m.paypal.com" : "https://api-m.sandbox.paypal.com",
   };
-}
-
-export async function ensurePaymentSchema(db = getAuthDb()) {
-  paymentSchemaReady ??= (async () => {
-    await db.batch([
-      db.prepare(`CREATE TABLE IF NOT EXISTS purchases (
-        id TEXT PRIMARY KEY NOT NULL,
-        user_id TEXT NOT NULL,
-        product_code TEXT NOT NULL,
-        paypal_order_id TEXT,
-        paypal_capture_id TEXT,
-        amount_value TEXT NOT NULL,
-        currency_code TEXT NOT NULL,
-        status TEXT NOT NULL,
-        created_at TEXT NOT NULL,
-        updated_at TEXT NOT NULL,
-        completed_at TEXT,
-        FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE NO ACTION ON DELETE CASCADE
-      )`),
-      db.prepare("CREATE INDEX IF NOT EXISTS purchases_user_product_idx ON purchases (user_id, product_code)"),
-      db.prepare("CREATE UNIQUE INDEX IF NOT EXISTS purchases_paypal_order_unique ON purchases (paypal_order_id)"),
-      db.prepare("CREATE UNIQUE INDEX IF NOT EXISTS purchases_paypal_capture_unique ON purchases (paypal_capture_id)"),
-      db.prepare(`CREATE TABLE IF NOT EXISTS paypal_events (
-        id TEXT PRIMARY KEY NOT NULL,
-        event_type TEXT NOT NULL,
-        resource_id TEXT,
-        processed_at TEXT NOT NULL
-      )`),
-    ]);
-  })();
-  await paymentSchemaReady;
-  return db;
-}
-
-export async function hasFieldGuideEntitlement(userId: string) {
-  const db = await ensurePaymentSchema();
-  const row = await db.prepare(
-    "SELECT id FROM purchases WHERE user_id = ? AND product_code = ? AND status = 'completed' LIMIT 1",
-  ).bind(userId, FIELD_GUIDE_PRODUCT).first();
-  return Boolean(row);
 }
 
 async function accessToken() {
@@ -118,8 +78,8 @@ export async function createFieldGuideOrder(userId: string, origin: string) {
   const purchaseId = crypto.randomUUID();
   const now = new Date().toISOString();
   await db.prepare(`INSERT INTO purchases
-    (id, user_id, product_code, amount_value, currency_code, status, created_at, updated_at)
-    VALUES (?, ?, ?, ?, ?, 'creating', ?, ?)`)
+    (id, user_id, product_code, payment_provider, amount_value, currency_code, status, created_at, updated_at)
+    VALUES (?, ?, ?, 'paypal', ?, ?, 'creating', ?, ?)`)
     .bind(purchaseId, userId, FIELD_GUIDE_PRODUCT, config.price, FIELD_GUIDE_CURRENCY, now, now).run();
 
   try {
@@ -146,8 +106,9 @@ export async function createFieldGuideOrder(userId: string, origin: string) {
     });
     const approvalUrl = order.links?.find(link => link.rel === "payer-action" || link.rel === "approve")?.href;
     if (!order.id || !approvalUrl) throw new Error("PayPal did not return an approval link");
-    await db.prepare("UPDATE purchases SET paypal_order_id = ?, status = 'pending', updated_at = ? WHERE id = ?")
-      .bind(order.id, new Date().toISOString(), purchaseId).run();
+    await db.prepare(`UPDATE purchases SET paypal_order_id = ?, provider_checkout_id = ?,
+      status = 'pending', updated_at = ? WHERE id = ?`)
+      .bind(order.id, order.id, new Date().toISOString(), purchaseId).run();
     return { alreadyOwned: false as const, orderId: order.id, approvalUrl };
   } catch (error) {
     await db.prepare("UPDATE purchases SET status = 'failed', updated_at = ? WHERE id = ?")
@@ -176,9 +137,10 @@ export async function captureFieldGuideOrder(userId: string, orderId: string) {
   if (capture.amount?.currency_code !== purchase.currencyCode || capture.amount?.value !== purchase.amountValue) throw new Error("PayPal returned an unexpected payment amount");
 
   const completedAt = new Date().toISOString();
-  await db.prepare(`UPDATE purchases SET paypal_capture_id = ?, status = 'completed', updated_at = ?, completed_at = ?
+  await db.prepare(`UPDATE purchases SET paypal_capture_id = ?, provider_payment_id = ?,
+    status = 'completed', updated_at = ?, completed_at = ?
     WHERE id = ? AND status = 'pending'`)
-    .bind(capture.id, completedAt, completedAt, purchase.id).run();
+    .bind(capture.id, capture.id, completedAt, completedAt, purchase.id).run();
   return { completed: true as const };
 }
 
@@ -230,9 +192,10 @@ export async function processPayPalWebhook(event: {
   if (event.event_type === "PAYMENT.CAPTURE.COMPLETED" && orderId && resource?.id) {
     const config = getPayPalConfig();
     if (resource.amount?.currency_code === FIELD_GUIDE_CURRENCY && resource.amount?.value === config.price) {
-      await db.prepare(`UPDATE purchases SET paypal_capture_id = ?, status = 'completed', updated_at = ?, completed_at = ?
+      await db.prepare(`UPDATE purchases SET paypal_capture_id = ?, provider_payment_id = ?,
+        status = 'completed', updated_at = ?, completed_at = ?
         WHERE paypal_order_id = ? AND product_code = ? AND status IN ('pending', 'completed')`)
-        .bind(resource.id, now, now, orderId, FIELD_GUIDE_PRODUCT).run();
+        .bind(resource.id, resource.id, now, now, orderId, FIELD_GUIDE_PRODUCT).run();
     }
   } else if (event.event_type === "PAYMENT.CAPTURE.DENIED" && captureId) {
     await db.prepare("UPDATE purchases SET status = 'denied', updated_at = ? WHERE paypal_capture_id = ? OR paypal_order_id = ?")

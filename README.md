@@ -62,3 +62,22 @@ https://pet-wildkind.co.uk/api/paypal/webhook
 
 Payment capture and verified webhook events create the D1 entitlement. Browser
 redirects alone never unlock paid access.
+
+## Creem checkout
+
+Creem runs alongside PayPal as a second one-time checkout provider. Configure
+`CREEM_API_KEY`, `CREEM_ENV`, `CREEM_PRODUCT_ID`, and
+`CREEM_WEBHOOK_SECRET` as hosted runtime values. Test and production products,
+keys, and webhooks are isolated by Creem and must not be mixed.
+
+The Creem webhook URL is:
+
+```text
+https://pet-wildkind.co.uk/api/creem/webhook
+```
+
+The return route verifies Creem's signed redirect and then retrieves the
+checkout from Creem's server before recording it. The signed webhook remains
+the durable source for completed, refunded, and disputed payment updates.
+Test-mode purchases are stored as `test_completed` and never grant production
+Field Guide access. Use `/checkout?creem_test=1` to expose the test button.

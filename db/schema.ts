@@ -58,6 +58,10 @@ export const purchases = sqliteTable("purchases", {
   id: text("id").primaryKey(),
   userId: text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
   productCode: text("product_code").notNull(),
+  paymentProvider: text("payment_provider").notNull().default("paypal"),
+  providerCheckoutId: text("provider_checkout_id"),
+  providerPaymentId: text("provider_payment_id"),
+  providerCustomerId: text("provider_customer_id"),
   paypalOrderId: text("paypal_order_id"),
   paypalCaptureId: text("paypal_capture_id"),
   amountValue: text("amount_value").notNull(),
@@ -68,11 +72,20 @@ export const purchases = sqliteTable("purchases", {
   completedAt: text("completed_at"),
 }, (table) => [
   index("purchases_user_product_idx").on(table.userId, table.productCode),
+  uniqueIndex("purchases_provider_checkout_unique").on(table.providerCheckoutId),
+  uniqueIndex("purchases_provider_payment_unique").on(table.providerPaymentId),
   uniqueIndex("purchases_paypal_order_unique").on(table.paypalOrderId),
   uniqueIndex("purchases_paypal_capture_unique").on(table.paypalCaptureId),
 ]);
 
 export const paypalEvents = sqliteTable("paypal_events", {
+  id: text("id").primaryKey(),
+  eventType: text("event_type").notNull(),
+  resourceId: text("resource_id"),
+  processedAt: text("processed_at").notNull(),
+});
+
+export const creemEvents = sqliteTable("creem_events", {
   id: text("id").primaryKey(),
   eventType: text("event_type").notNull(),
   resourceId: text("resource_id"),

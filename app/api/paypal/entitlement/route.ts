@@ -1,5 +1,5 @@
 import { getGoogleUserFromRequest } from "../../../../lib/google-auth";
-import { hasFieldGuideEntitlement } from "../../../../lib/paypal";
+import { hasFieldGuideEntitlement } from "../../../../lib/payments";
 
 export const dynamic = "force-dynamic";
 
