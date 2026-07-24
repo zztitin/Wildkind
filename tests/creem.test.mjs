@@ -22,6 +22,8 @@ test("Creem checkout is authenticated, verified, idempotent, and test-safe", asy
   assert.match(creem, /productId !== config\.productId/);
   assert.match(creem, /"test_completed"/);
   assert.match(creem, /SELECT id FROM creem_events WHERE id = \?/);
+  assert.match(creem, /if \(!\(await completeCreemPurchase\(checkout, userId\)\)\)/);
+  assert.match(creem, /acknowledge any event that does not match a locally-created purchase/);
   assert.match(payments, /status = 'completed'/);
   assert.doesNotMatch(payments, /test_completed.*LIMIT 1/s);
   assert.match(checkoutRoute, /getGoogleUserFromRequest/);

@@ -144,7 +144,9 @@ export async function confirmCreemRedirect(request: Request, userId: string) {
   if (params.order_id && checkout.order?.id !== params.order_id) {
     throw new Error("Creem order verification did not match the redirect");
   }
-  await completeCreemPurchase(checkout, userId);
+  if (!(await completeCreemPurchase(checkout, userId))) {
+    throw new Error("Creem did not confirm the expected Field Guide payment");
+  }
   return { testMode: config.environment === "test" };
 }
 
@@ -170,6 +172,8 @@ export async function processCreemWebhook(event: CreemEvent) {
   if (seen) return;
 
   if (event.eventType === "checkout.completed") {
+    // Signed Creem test deliveries contain synthetic checkout data. Safely
+    // acknowledge any event that does not match a locally-created purchase.
     await completeCreemPurchase(event.object);
   } else if (event.eventType === "refund.created" || event.eventType === "dispute.created") {
     const checkout = event.object.checkout;
@@ -210,10 +214,10 @@ async function completeCreemPurchase(checkout: CreemCheckout, expectedUserId?: s
     || order.currency !== FIELD_GUIDE_CURRENCY
     || (order.type && order.type !== "onetime")
   ) {
-    throw new Error("Creem did not confirm the expected Field Guide payment");
+    return false;
   }
-  if (config.environment === "test" && checkout.mode !== "test") throw new Error("Creem environment mismatch");
-  if (config.environment === "live" && checkout.mode === "test") throw new Error("Creem environment mismatch");
+  if (config.environment === "test" && checkout.mode !== "test") return false;
+  if (config.environment === "live" && checkout.mode === "test") return false;
 
   const db = await ensurePaymentSchema();
   const purchase = await db.prepare(`SELECT id, user_id AS userId, amount_value AS amountValue,
@@ -222,10 +226,10 @@ async function completeCreemPurchase(checkout: CreemCheckout, expectedUserId?: s
     .bind(checkout.request_id, FIELD_GUIDE_PRODUCT)
     .first<{ id: string; userId: string; amountValue: string; currencyCode: string; status: string }>();
   if (!purchase || (expectedUserId && purchase.userId !== expectedUserId)) {
-    throw new Error("This Creem checkout does not belong to the signed-in account");
+    return false;
   }
   if (purchase.amountValue !== DEFAULT_FIELD_GUIDE_PRICE || purchase.currencyCode !== FIELD_GUIDE_CURRENCY) {
-    throw new Error("Creem returned an unexpected payment amount");
+    return false;
   }
 
   const now = new Date().toISOString();
@@ -234,6 +238,7 @@ async function completeCreemPurchase(checkout: CreemCheckout, expectedUserId?: s
     provider_customer_id = ?, status = ?, updated_at = ?, completed_at = ?
     WHERE id = ? AND status IN ('pending', 'test_completed', 'completed')`)
     .bind(checkout.id, order.id, customerId, status, now, now, purchase.id).run();
+  return true;
 }
 
 async function verifyCreemRedirectSignature(request: Request, apiKey: string) {
