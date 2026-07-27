@@ -15,6 +15,9 @@ test("build contains the WildKind product shell", async () => {
   assert.match(app, /Begin the expedition/);
   assert.match(app, /Five coordinates/);
   assert.match(layout, /Pet personality, carefully mapped/);
+  assert.match(layout, /G-W4N9455EHD/);
+  assert.match(layout, /googletagmanager\.com\/gtag\/js/);
+  assert.match(layout, /gtag\('config', '\$\{GOOGLE_TAG_ID\}'\)/);
   assert.match(css, /--obsidian:#1a1816/);
   assert.doesNotMatch(`${page}${app}${layout}`, /codex-preview|react-loading-skeleton|Starter Project/i);
 });
