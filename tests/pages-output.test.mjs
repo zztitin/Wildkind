@@ -21,6 +21,8 @@ test("Pages output serves assets before delegating to Vinext", async () => {
   assert.match(entry, /env\.ASSETS\.fetch\(request\)/);
   assert.match(entry, /www\.\$\{CANONICAL_HOST\}/);
   assert.match(entry, /Response\.redirect\(requestUrl\.toString\(\), 308\)/);
+  assert.match(entry, /requestUrl\.pathname === "\/_vinext\/image"/);
+  assert.match(entry, /env\.ASSETS\.fetch\(new Request\(sourceUrl, request\)\)/);
   assert.match(entry, /vinextWorker\.fetch\(request, env, context\)/);
   assert.ok(assets.some((asset) => asset.endsWith(".css")));
   assert.ok(assets.some((asset) => asset.endsWith(".js")));

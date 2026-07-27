@@ -15,6 +15,19 @@ const pagesWorker = {
     }
 
     if (STATIC_METHODS.has(request.method) && env.ASSETS) {
+      if (requestUrl.pathname === "/_vinext/image") {
+        const sourcePath = requestUrl.searchParams.get("url");
+
+        if (sourcePath?.startsWith("/") && !sourcePath.startsWith("//")) {
+          const sourceUrl = new URL(sourcePath, requestUrl);
+          const sourceResponse = await env.ASSETS.fetch(new Request(sourceUrl, request));
+
+          if (sourceResponse.status !== 404) {
+            return sourceResponse;
+          }
+        }
+      }
+
       const assetResponse = await env.ASSETS.fetch(request);
 
       if (assetResponse.status !== 404) {
