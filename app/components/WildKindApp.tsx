@@ -71,6 +71,7 @@ function Home({ begin, how }: { begin: () => void; how: () => void }) {
           width={1254}
           height={1254}
           sizes="(max-width: 1000px) 90vw, 60vw"
+          unoptimized
         />
         <Link className="paw-register-hotspot" href="/register" aria-label="Select the contour paw to create your WildKind account">
           <span>Create your account</span>

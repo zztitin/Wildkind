@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { headers } from "next/headers";
 import { GoogleConsent, GOOGLE_CONSENT_KEY } from "./components/GoogleConsent";
 import "./globals.css";
 
+const PUBLIC_ORIGIN = new URL("https://pet-wildkind.co.uk");
 const GOOGLE_TAG_ID = "G-W4N9455EHD";
 const GOOGLE_TAG_BOOTSTRAP = `
 window.dataLayer = window.dataLayer || [];
@@ -23,19 +23,17 @@ gtag('js', new Date());
 gtag('config', '${GOOGLE_TAG_ID}');
 `;
 
-export async function generateMetadata(): Promise<Metadata> {
-  const requestHeaders = await headers();
-  const host = requestHeaders.get("host") ?? "localhost:3000";
-  const protocol = requestHeaders.get("x-forwarded-proto") ?? (host.startsWith("localhost") ? "http" : "https");
-  const origin = `${protocol}://${host}`;
+export function generateMetadata(): Metadata {
   const title = "WildKind — Pet personality, carefully mapped";
-  const description = "Map five behavioral dimensions, discover your pet's provisional WildKind archetype, and learn what helps them thrive.";
+  const description = "Explore five carefully observed behavioral dimensions, discover your pet's provisional WildKind archetype, and learn practical ways to help them thrive.";
   return {
+    metadataBase: PUBLIC_ORIGIN,
     title,
     description,
+    alternates: { canonical: "/" },
     icons: { icon: "/favicon.svg", shortcut: "/favicon.svg" },
-    openGraph: { title, description, type: "website", url: origin, images: [{ url: `${origin}/og.png`, width: 1536, height: 1024, alt: "WildKind pet personality field guide" }] },
-    twitter: { card: "summary_large_image", title, description, images: [`${origin}/og.png`] },
+    openGraph: { title, description, type: "website", url: "/", images: [{ url: "/og.png", width: 1536, height: 1024, alt: "WildKind pet personality field guide" }] },
+    twitter: { card: "summary_large_image", title, description, images: ["/og.png"] },
   };
 }
 

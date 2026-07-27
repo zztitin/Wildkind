@@ -15,7 +15,10 @@ test("build contains the WildKind product shell and privacy-first analytics", as
   assert.match(app, /What&apos;s Your Pet&apos;s/);
   assert.match(app, /Begin the expedition/);
   assert.match(app, /Five coordinates/);
+  assert.match(app, /unoptimized/);
   assert.match(layout, /Pet personality, carefully mapped/);
+  assert.match(layout, /metadataBase: PUBLIC_ORIGIN/);
+  assert.match(layout, /alternates: \{ canonical: "\/" \}/);
   assert.match(layout, /G-W4N9455EHD/);
   assert.match(layout, /googletagmanager\.com\/gtag\/js/);
   assert.match(layout, /gtag\('config', '\$\{GOOGLE_TAG_ID\}'\)/);
@@ -39,6 +42,7 @@ test("pricing route contains the staged WildKind offer", async () => {
     readFile(new URL("../app/pricing/PricingPage.tsx", import.meta.url), "utf8"),
   ]);
   assert.match(page, /PricingPage/);
+  assert.match(page, /alternates: \{ canonical: "\/pricing" \}/);
   assert.match(pricing, /WildKind Snapshot/);
   assert.match(pricing, /complete Field Guide/i);
   assert.match(pricing, /WildKind Compass/);

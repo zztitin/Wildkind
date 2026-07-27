@@ -10,7 +10,8 @@ export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Complete Field Guide Checkout — WildKind",
-  description: "Securely unlock the WildKind Complete Field Guide with PayPal or Creem.",
+  description: "Securely purchase the WildKind Complete Field Guide for one pet with a one-time USD payment through PayPal or Creem.",
+  alternates: { canonical: "/checkout" },
 };
 
 export default async function CheckoutPage({

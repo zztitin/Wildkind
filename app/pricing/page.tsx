@@ -4,6 +4,7 @@ import { PricingPage } from "./PricingPage";
 export const metadata: Metadata = {
   title: "Pricing — WildKind",
   description: "Start with a free WildKind Snapshot, unlock a complete pet personality Field Guide when you are ready, and explore future annual membership.",
+  alternates: { canonical: "/pricing" },
 };
 
 export default function Page() {

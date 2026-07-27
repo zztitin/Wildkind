@@ -1,9 +1,17 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { headers } from "next/headers";
 import { getGoogleUserFromCookie, safeReturnTo } from "../../lib/google-auth";
 import { RegistrationForm } from "./RegistrationForm";
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "Create your private WildKind account",
+  description: "Create a private WildKind account to save your pet personality Snapshot, keep your Complete Field Guide, and manage your data choices.",
+  alternates: { canonical: "/register" },
+  robots: { index: false, follow: true },
+};
 
 const errors: Record<string, string> = {
   "required-consent": "Confirm the required age and service choices before continuing.",
