@@ -31,7 +31,7 @@ function Header({ screen, setScreen, signedIn, initials }: { screen: Screen; set
           <Link href="/methodology">Methodology</Link>
           <Link href="/pricing">Pricing</Link>
         </nav>
-      ) : <div className="header-public"><span className="header-note">Behavior, carefully observed.</span><Link href="/methodology">Methodology</Link><Link href="/pricing">Pricing</Link></div>}
+      ) : <div className="header-public"><span className="header-note">Behavior, carefully observed.</span><Link href="/sample-field-guide">Sample report</Link><Link href="/methodology">Methodology</Link><Link href="/pricing">Pricing</Link></div>}
       {signedIn && <button className="avatar" onClick={() => setScreen("privacy")} aria-label="Open privacy and account settings">{initials}</button>}
     </header>
   );
@@ -238,6 +238,6 @@ export function WildKindApp({ initialUser }: { initialUser: { name: string | nul
     {screen === "messages" && <Messages connections={connections} messages={messages} send={(id,text)=>setMessages(m=>({...m,[id]:[...(m[id]??[]),text]}))} block={block} report={()=>setReporting(true)} />}
     {screen === "privacy" && <Privacy pet={pet} setPet={setPet} clear={clear} />}
     {reporting && <Safety close={() => setReporting(false)} />}
-    <footer><div className="brand"><Mark small /><span>WILDKIND</span></div><p>Warm science for the individual animal.</p><nav><Link href="/pricing">Pricing</Link><button onClick={() => setReporting(true)}>Safety</button><button onClick={() => setScreen(signedIn ? "privacy" : "home")}>Privacy</button><Link href="/methodology">Methodology</Link></nav><small>© 2026 WildKind · Snapshot v0.1 · Not veterinary advice</small></footer>
+    <footer><div className="brand"><Mark small /><span>WILDKIND</span></div><p>Warm science for the individual animal.</p><nav><Link href="/pricing">Pricing</Link><Link href="/sample-field-guide">Sample report</Link><button onClick={() => setReporting(true)}>Safety</button><button onClick={() => setScreen(signedIn ? "privacy" : "home")}>Privacy</button><Link href="/methodology">Methodology</Link></nav><small>© 2026 WildKind · Snapshot v0.1 · Not veterinary advice</small></footer>
   </div>;
 }

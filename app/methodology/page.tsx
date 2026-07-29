@@ -394,7 +394,7 @@ export default function MethodologyPage() {
       <footer className="methodology-site-footer">
         <Link href="/" className="methodology-brand"><PawMark /><span>WILDKIND</span></Link>
         <p>Warm science for the individual animal.</p>
-        <nav><Link href="/methodology">Methodology</Link><Link href="/pricing">Pricing</Link><Link href="/register">Account</Link></nav>
+        <nav><Link href="/sample-field-guide">Sample report</Link><Link href="/methodology">Methodology</Link><Link href="/pricing">Pricing</Link><Link href="/register">Account</Link></nav>
         <small>© 2026 WildKind · Snapshot v0.1 · Not veterinary advice</small>
       </footer>
     </div>

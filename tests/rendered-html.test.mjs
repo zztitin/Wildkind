@@ -70,3 +70,19 @@ test("methodology route documents the live scoring model and review boundary", a
   assert.match(methodology, /WildKind Product & Research/);
   assert.doesNotMatch(methodology, /github\.com/i);
 });
+
+test("sample Field Guide is complete, fictional, and payment-preview ready", async () => {
+  const sample = await readFile(new URL("../app/sample-field-guide/page.tsx", import.meta.url), "utf8");
+  assert.match(sample, /Sample Field Guide — WildKind/);
+  assert.match(sample, /This is a sample report, generated based on the fictional pet ‘Buddy’/);
+  assert.match(sample, /No real user, account, or assessment data appears/);
+  assert.match(sample, /Buddy's radar chart: Discovery Drive 82/);
+  assert.match(sample, /Thundertrail Scout/);
+  assert.match(sample, /Advantages and disadvantages/);
+  assert.match(sample, /Stress factors/);
+  assert.match(sample, /Personalized seven-day plan/);
+  assert.match(sample, /Start with/);
+  assert.match(sample, /Pause if/);
+  assert.match(sample, /Observation to record next/);
+  assert.match(sample, /Scientific and safety boundary/);
+});

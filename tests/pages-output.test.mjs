@@ -28,6 +28,8 @@ test("Pages output serves assets before delegating to Vinext", async () => {
   assert.ok(assets.some((asset) => asset.endsWith(".js")));
   assert.match(sitemap, /<loc>https:\/\/pet-wildkind\.co\.uk\/<\/loc>/);
   assert.match(sitemap, /<loc>https:\/\/pet-wildkind\.co\.uk\/pricing<\/loc>/);
+  assert.match(sitemap, /<loc>https:\/\/pet-wildkind\.co\.uk\/methodology<\/loc>/);
+  assert.match(sitemap, /<loc>https:\/\/pet-wildkind\.co\.uk\/sample-field-guide<\/loc>/);
   assert.doesNotMatch(sitemap, /\/register|\/checkout/);
   assert.match(robots, /Sitemap: https:\/\/pet-wildkind\.co\.uk\/sitemap\.xml/);
 });
