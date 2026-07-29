@@ -51,3 +51,22 @@ test("pricing route contains the staged WildKind offer", async () => {
   assert.match(pricing, /USD/);
   assert.match(pricing, /\/checkout/);
 });
+
+test("methodology route documents the live scoring model and review boundary", async () => {
+  const methodology = await readFile(new URL("../app/methodology/page.tsx", import.meta.url), "utf8");
+  assert.match(methodology, /WildKind Methodology — Our Approach/);
+  assert.match(methodology, /Discovery Drive/);
+  assert.match(methodology, /Social Energy/);
+  assert.match(methodology, /Bonding Style/);
+  assert.match(methodology, /Behavioral Regulation/);
+  assert.match(methodology, /Emotional Resilience/);
+  assert.match(methodology, /4 − selected value/);
+  assert.match(methodology, /Euclidean distance/);
+  assert.match(methodology, /difference between the two closest distances is less than 10/);
+  assert.match(methodology, /Not diagnostic/);
+  assert.match(methodology, /Litchfield/);
+  assert.match(methodology, /Gosling/);
+  assert.match(methodology, /No veterinarian, veterinary behaviorist/);
+  assert.match(methodology, /WildKind Product & Research/);
+  assert.doesNotMatch(methodology, /github\.com/i);
+});
