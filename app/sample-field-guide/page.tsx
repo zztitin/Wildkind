@@ -137,26 +137,46 @@ function PawMark() {
 function RadarChart() {
   return (
     <figure className="sample-radar-figure">
-      <div
-        className="sample-radar"
-        role="img"
-        aria-label="Buddy's radar chart: Discovery Drive 82, Social Energy 78, Bonding Style 55, Behavioral Regulation 53, Emotional Resilience 59"
-      >
-        <div className="radar-grid radar-grid-100" />
-        <div className="radar-grid radar-grid-75" />
-        <div className="radar-grid radar-grid-50" />
-        <div className="radar-grid radar-grid-25" />
-        <i className="radar-axis axis-1" /><i className="radar-axis axis-2" />
-        <i className="radar-axis axis-3" /><i className="radar-axis axis-4" />
-        <i className="radar-axis axis-5" />
-        <div className="radar-data" />
-        <span className="radar-label radar-label-dd"><b>82</b> Discovery Drive</span>
-        <span className="radar-label radar-label-se"><b>78</b> Social Energy</span>
-        <span className="radar-label radar-label-bs"><b>55</b> Bonding Style</span>
-        <span className="radar-label radar-label-br"><b>53</b> Behavioral Regulation</span>
-        <span className="radar-label radar-label-er"><b>59</b> Emotional Resilience</span>
+      <header className="sample-radar-header">
+        <div><span>Behavioral coordinate map</span><strong>BUDDY · SNAPSHOT 0.1</strong></div>
+        <small>ASSESSMENT SCALE<br /><b>0 — 100</b></small>
+      </header>
+      <div className="sample-radar-layout">
+        <div
+          className="sample-radar"
+          role="img"
+          aria-label="Buddy's radar chart: Discovery Drive 82, Social Energy 78, Bonding Style 55, Behavioral Regulation 53, Emotional Resilience 59"
+        >
+          <div className="radar-grid radar-grid-100" />
+          <div className="radar-grid radar-grid-75" />
+          <div className="radar-grid radar-grid-50" />
+          <div className="radar-grid radar-grid-25" />
+          <i className="radar-axis axis-1" /><i className="radar-axis axis-2" />
+          <i className="radar-axis axis-3" /><i className="radar-axis axis-4" />
+          <i className="radar-axis axis-5" />
+          <div className="radar-data" />
+          <i className="radar-point radar-point-dd" /><i className="radar-point radar-point-se" />
+          <i className="radar-point radar-point-bs" /><i className="radar-point radar-point-br" />
+          <i className="radar-point radar-point-er" />
+          <span className="radar-code radar-code-dd">DD</span>
+          <span className="radar-code radar-code-se">SE</span>
+          <span className="radar-code radar-code-bs">BS</span>
+          <span className="radar-code radar-code-br">BR</span>
+          <span className="radar-code radar-code-er">ER</span>
+          <span className="radar-center">5<small>coordinates</small></span>
+        </div>
+        <ol className="sample-radar-key" aria-label="Buddy's five coordinate scores">
+          {scores.map((score) => (
+            <li key={score.code}>
+              <b>{score.code}</b>
+              <span>{score.name}</span>
+              <strong>{score.score}</strong>
+            </li>
+          ))}
+        </ol>
       </div>
-      <figcaption>Five continuous scores · 0–100 assessment scale · No population percentiles</figcaption>
+      <footer className="sample-radar-scale"><span>Less frequently expressed</span><i /><span>More frequently expressed</span></footer>
+      <figcaption>Continuous behavioral coordinates · No population percentiles</figcaption>
     </figure>
   );
 }
