@@ -163,7 +163,7 @@ export default function PetBehaviorObservationChecklistPage() {
           <div className="resource-hero-copy">
             <p className="eyebrow">Free field resource · 30 days</p>
             <h1>
-              Notice the pattern.
+              <span>Notice the pattern.</span>
               <em>Keep the label out.</em>
             </h1>
             <p className="resource-hero-lede">

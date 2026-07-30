@@ -284,10 +284,14 @@ export default function AboutPage() {
 
           <section id="founder" className="about-founder">
             <div className="about-founder-mark" aria-hidden="true">
-              <span>TZ</span>
-              <i />
-              <i />
-              <i />
+              <div className="about-founder-top"><span>Founder</span><small>WK / 01</small></div>
+              <div className="about-founder-paw">
+                <i />
+                <i />
+                <i />
+                <b><em /><em /></b>
+              </div>
+              <div className="about-founder-meta"><strong>Tinke Zhang</strong><span>Independent maker</span></div>
             </div>
             <div>
               <p className="eyebrow">04 · About the founder</p>
