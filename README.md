@@ -1,8 +1,23 @@
 # WildKind
 
-Warm-science pet personality mapping and safe social discovery.
+> **Decoding the nature beneath the nurture.**
 
-This MVP implements the core loop from the product requirements:
+[Visit WildKind](https://pet-wildkind.co.uk) ·
+[View a sample Field Guide](https://pet-wildkind.co.uk/sample-field-guide) ·
+[Read the methodology](https://pet-wildkind.co.uk/methodology) ·
+[Download the free observation checklist](https://pet-wildkind.co.uk/resources/pet-behavior-observation-checklist)
+
+WildKind is a warm-science pet behavior project that helps people notice
+patterns without reducing an animal to a label. It translates everyday
+observations into five transparent behavioral dimensions, a provisional
+archetype, and practical care suggestions.
+
+The public product, educational resources, methodology, pricing, and project
+story are available at **[pet-wildkind.co.uk](https://pet-wildkind.co.uk)**.
+
+## Project overview
+
+The current MVP supports this core journey:
 
 1. Complete one anonymous 32-observation WildKind Snapshot.
 2. Calculate five transparent behavioral dimensions with coverage labels.
@@ -10,6 +25,19 @@ This MVP implements the core loop from the product requirements:
 4. Save a private pet profile and opt into discovery.
 5. Find explainable recommendations, connect by mutual consent, and message.
 6. Block, report, export, change visibility, or delete saved data.
+
+WildKind is an observation and educational tool—not a diagnostic service or a
+replacement for veterinary care, a veterinary behaviorist, or a qualified
+animal behavior professional. See the
+[full methodology and limitations](https://pet-wildkind.co.uk/methodology).
+
+## Explore WildKind
+
+- [Take the WildKind assessment](https://pet-wildkind.co.uk)
+- [Preview Buddy’s fictional sample report](https://pet-wildkind.co.uk/sample-field-guide)
+- [See pricing and Field Guide options](https://pet-wildkind.co.uk/pricing)
+- [Use the free 30-day behavior observation checklist](https://pet-wildkind.co.uk/resources/pet-behavior-observation-checklist)
+- [Read the story and editorial standards](https://pet-wildkind.co.uk/about)
 
 ## Local development
 
