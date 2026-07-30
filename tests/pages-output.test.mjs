@@ -35,6 +35,7 @@ test("Pages output serves assets before delegating to Vinext", async () => {
   assert.match(sitemap, /<loc>https:\/\/pet-wildkind\.co\.uk\/methodology<\/loc>/);
   assert.match(sitemap, /<loc>https:\/\/pet-wildkind\.co\.uk\/sample-field-guide<\/loc>/);
   assert.match(sitemap, /<loc>https:\/\/pet-wildkind\.co\.uk\/resources\/pet-behavior-observation-checklist<\/loc>/);
+  assert.match(sitemap, /<loc>https:\/\/pet-wildkind\.co\.uk\/about<\/loc>/);
   assert.doesNotMatch(sitemap, /\/register|\/checkout/);
   assert.match(robots, /Sitemap: https:\/\/pet-wildkind\.co\.uk\/sitemap\.xml/);
 });

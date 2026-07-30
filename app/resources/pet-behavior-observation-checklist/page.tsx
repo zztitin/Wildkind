@@ -144,6 +144,7 @@ export default function PetBehaviorObservationChecklistPage() {
         <nav aria-label="Resource navigation">
           <Link href="/sample-field-guide">Sample report</Link>
           <Link href="/methodology">Methodology</Link>
+          <Link href="/about">About</Link>
           <Link href="/pricing">Pricing</Link>
           <Link className="resource-header-cta" href="/register">
             Create account <span aria-hidden="true">↗</span>
@@ -301,6 +302,7 @@ export default function PetBehaviorObservationChecklistPage() {
         <nav>
           <Link href="/methodology">Methodology</Link>
           <Link href="/sample-field-guide">Sample report</Link>
+          <Link href="/about">About</Link>
           <Link href="/pricing">Pricing</Link>
           <Link href="/register">Account</Link>
         </nav>

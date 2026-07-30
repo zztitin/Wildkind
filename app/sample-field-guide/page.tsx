@@ -189,6 +189,7 @@ export default function SampleFieldGuidePage() {
         <nav aria-label="Sample Field Guide navigation">
           <Link href="/resources/pet-behavior-observation-checklist">Free checklist</Link>
           <Link href="/methodology">Methodology</Link>
+          <Link href="/about">About</Link>
           <Link href="/pricing">Pricing</Link>
           <Link className="sample-header-cta" href="/register">Create account <span aria-hidden="true">↗</span></Link>
         </nav>
@@ -387,7 +388,7 @@ export default function SampleFieldGuidePage() {
       <footer className="sample-guide-footer">
         <Link href="/" className="sample-guide-brand"><PawMark /><span>WILDKIND</span></Link>
         <p>Warm science for the individual animal.</p>
-        <nav><Link href="/resources/pet-behavior-observation-checklist">Free checklist</Link><Link href="/sample-field-guide">Sample report</Link><Link href="/methodology">Methodology</Link><Link href="/pricing">Pricing</Link></nav>
+        <nav><Link href="/resources/pet-behavior-observation-checklist">Free checklist</Link><Link href="/sample-field-guide">Sample report</Link><Link href="/methodology">Methodology</Link><Link href="/about">About</Link><Link href="/pricing">Pricing</Link></nav>
         <small>© 2026 WildKind · Fictional demonstration · Not veterinary advice</small>
       </footer>
     </div>

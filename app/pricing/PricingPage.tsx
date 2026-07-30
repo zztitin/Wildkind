@@ -27,7 +27,7 @@ export function PricingPage() {
   return <div className="pricing-page">
     <header className="pricing-header">
       <Link href="/" className="pricing-brand"><PawMark /><span>WILD<strong>◆</strong>KIND</span></Link>
-      <nav aria-label="Pricing navigation"><Link href="/resources/pet-behavior-observation-checklist">Free checklist</Link><Link href="/sample-field-guide">Sample report</Link><Link href="/methodology">Methodology</Link><Link href="/pricing" aria-current="page">Pricing</Link><Link className="pricing-header-cta" href="/register">Create account <span>↗</span></Link></nav>
+      <nav aria-label="Pricing navigation"><Link href="/resources/pet-behavior-observation-checklist">Free checklist</Link><Link href="/sample-field-guide">Sample report</Link><Link href="/methodology">Methodology</Link><Link href="/about">About</Link><Link href="/pricing" aria-current="page">Pricing</Link><Link className="pricing-header-cta" href="/register">Create account <span>↗</span></Link></nav>
     </header>
 
     <main>
@@ -115,6 +115,6 @@ export function PricingPage() {
       </section>
     </main>
 
-    <footer className="pricing-footer"><Link href="/" className="pricing-brand"><PawMark /><span>WILD<strong>◆</strong>KIND</span></Link><p>Warm science for the individual animal.</p><nav><Link href="/resources/pet-behavior-observation-checklist">Free checklist</Link><Link href="/pricing">Pricing</Link><Link href="/sample-field-guide">Sample report</Link><Link href="/methodology">Methodology</Link><Link href="/register">Account</Link></nav><small>© 2026 WildKind · Snapshot v0.1 · Not veterinary advice</small></footer>
+    <footer className="pricing-footer"><Link href="/" className="pricing-brand"><PawMark /><span>WILD<strong>◆</strong>KIND</span></Link><p>Warm science for the individual animal.</p><nav><Link href="/resources/pet-behavior-observation-checklist">Free checklist</Link><Link href="/pricing">Pricing</Link><Link href="/sample-field-guide">Sample report</Link><Link href="/methodology">Methodology</Link><Link href="/about">About</Link><Link href="/register">Account</Link></nav><small>© 2026 WildKind · Snapshot v0.1 · Not veterinary advice</small></footer>
   </div>;
 }

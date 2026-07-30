@@ -118,3 +118,27 @@ test("observation checklist resource is neutral, printable, and share-ready", as
   );
   assert.match(resource, /download/);
 });
+
+test("about page is personal, reviewable, and explicit about credibility limits", async () => {
+  const about = await readFile(
+    new URL("../app/about/page.tsx", import.meta.url),
+    "utf8",
+  );
+  assert.match(about, /About WildKind — Our Story & Editorial Standards/);
+  assert.match(about, /It started with a dog/);
+  assert.match(about, /Milo/);
+  assert.match(about, /Tinke Zhang/);
+  assert.match(about, /freelance web developer/);
+  assert.match(about, /not a\s+veterinarian/);
+  assert.match(about, /Observe before interpreting/);
+  assert.match(about, /Routine review/);
+  assert.match(about, /Quarterly/);
+  assert.match(about, /Correct in public/);
+  assert.match(
+    about,
+    /No external expert or consultant has yet reviewed or endorsed WildKind/,
+  );
+  assert.match(about, /cited authors, not collaborators, advisers, or endorsers/);
+  assert.match(about, /https:\/\/x\.com\/TinkeZhang/);
+  assert.match(about, /30 July 2026/);
+});
