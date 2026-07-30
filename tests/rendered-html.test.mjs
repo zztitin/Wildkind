@@ -86,3 +86,35 @@ test("sample Field Guide is complete, fictional, and payment-preview ready", asy
   assert.match(sample, /Observation to record next/);
   assert.match(sample, /Scientific and safety boundary/);
 });
+
+test("observation checklist resource is neutral, printable, and share-ready", async () => {
+  const resource = await readFile(
+    new URL(
+      "../app/resources/pet-behavior-observation-checklist/page.tsx",
+      import.meta.url,
+    ),
+    "utf8",
+  );
+  assert.match(resource, /30-Day Pet Behavior Observation Checklist/);
+  assert.match(
+    resource,
+    /No diagnosis required, no labeling needed, just record-keeping/,
+  );
+  assert.match(
+    resource,
+    /Created by WildKind, based on frameworks of animal behavior/,
+  );
+  assert.match(resource, /Diet & hydration/);
+  assert.match(resource, /Sleep & rest/);
+  assert.match(resource, /Social responses/);
+  assert.match(resource, /Stress signals/);
+  assert.match(resource, /Play preferences/);
+  assert.match(resource, /Trainers/);
+  assert.match(resource, /Groomers/);
+  assert.match(resource, /Rescue & foster teams/);
+  assert.match(
+    resource,
+    /wildkind-30-day-pet-behavior-observation-checklist\.pdf/,
+  );
+  assert.match(resource, /download/);
+});

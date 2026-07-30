@@ -129,6 +129,7 @@ export default function MethodologyPage() {
           <span>WILDKIND</span>
         </Link>
         <nav aria-label="Methodology navigation">
+          <Link href="/resources/pet-behavior-observation-checklist">Free checklist</Link>
           <Link href="/methodology" aria-current="page">Methodology</Link>
           <Link href="/pricing">Pricing</Link>
           <Link className="methodology-header-cta" href="/register">
@@ -394,7 +395,7 @@ export default function MethodologyPage() {
       <footer className="methodology-site-footer">
         <Link href="/" className="methodology-brand"><PawMark /><span>WILDKIND</span></Link>
         <p>Warm science for the individual animal.</p>
-        <nav><Link href="/sample-field-guide">Sample report</Link><Link href="/methodology">Methodology</Link><Link href="/pricing">Pricing</Link><Link href="/register">Account</Link></nav>
+        <nav><Link href="/resources/pet-behavior-observation-checklist">Free checklist</Link><Link href="/sample-field-guide">Sample report</Link><Link href="/methodology">Methodology</Link><Link href="/pricing">Pricing</Link><Link href="/register">Account</Link></nav>
         <small>© 2026 WildKind · Snapshot v0.1 · Not veterinary advice</small>
       </footer>
     </div>

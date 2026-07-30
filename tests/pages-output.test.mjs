@@ -8,8 +8,12 @@ test("Pages output serves assets before delegating to Vinext", async () => {
   const assetsUrl = new URL("../dist/pages/assets/", import.meta.url);
   const sitemapUrl = new URL("../dist/pages/sitemap.xml", import.meta.url);
   const robotsUrl = new URL("../dist/pages/robots.txt", import.meta.url);
+  const checklistUrl = new URL(
+    "../dist/pages/resources/wildkind-30-day-pet-behavior-observation-checklist.pdf",
+    import.meta.url,
+  );
 
-  await Promise.all([access(entryUrl), access(vinextUrl), access(assetsUrl), access(sitemapUrl), access(robotsUrl)]);
+  await Promise.all([access(entryUrl), access(vinextUrl), access(assetsUrl), access(sitemapUrl), access(robotsUrl), access(checklistUrl)]);
 
   const [entry, assets, sitemap, robots] = await Promise.all([
     readFile(entryUrl, "utf8"),
@@ -30,6 +34,7 @@ test("Pages output serves assets before delegating to Vinext", async () => {
   assert.match(sitemap, /<loc>https:\/\/pet-wildkind\.co\.uk\/pricing<\/loc>/);
   assert.match(sitemap, /<loc>https:\/\/pet-wildkind\.co\.uk\/methodology<\/loc>/);
   assert.match(sitemap, /<loc>https:\/\/pet-wildkind\.co\.uk\/sample-field-guide<\/loc>/);
+  assert.match(sitemap, /<loc>https:\/\/pet-wildkind\.co\.uk\/resources\/pet-behavior-observation-checklist<\/loc>/);
   assert.doesNotMatch(sitemap, /\/register|\/checkout/);
   assert.match(robots, /Sitemap: https:\/\/pet-wildkind\.co\.uk\/sitemap\.xml/);
 });
